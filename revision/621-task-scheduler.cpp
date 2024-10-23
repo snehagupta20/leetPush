@@ -1,24 +1,24 @@
+
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        map<char,int> freq;
+        unordered_map<char, int> freq;
 
         for(int i=0;i<tasks.size();i++){
-            freq[tasks[i]]++; 
+            freq[tasks[i]]++;
+        }
+
+        priority_queue<int> pq;
+
+        for(auto f : freq){
+            pq.push(f.second);
         }
 
         int time = 0;
 
-        priority_queue<int> pq; // max heap
-
-        for(const auto f : freq){
-            pq.push(f.second);
-        }
-
         while(!pq.empty()){
             vector<int> temp;
-
-            for(int i=1;i<=n+1;i++){
+            for(int i=0;i<=n;i++){
                 if(!pq.empty()){
                     int f = pq.top();
                     pq.pop();
@@ -27,9 +27,9 @@ public:
                 }
             }
 
-            for(int &f : temp){
-                if(f>0){
-                    pq.push(f);
+            for(int i=0; i<temp.size(); i++){
+                if(temp[i]>0){
+                    pq.push(temp[i]);
                 }
             }
 
@@ -47,8 +47,6 @@ public:
 
 
 
-jabtak pura pq pop na ho jaye, tabtak vo usme se 1-1 hata dega
-and time += n+1
 
 
 
@@ -65,6 +63,14 @@ and time += n+1
 
 
 
+
+
+
+
+
+
+// jabtak pura pq pop na ho jaye, tabtak vo usme se 1-1 hata dega
+// and time += n+1
 
 
 /*
@@ -160,4 +166,48 @@ while(freq.size()>0){
 }
 
 return count;
+*/
+
+
+/*
+map<char,int> freq;
+
+for(int i=0;i<tasks.size();i++){
+    freq[tasks[i]]++; 
+}
+
+int time = 0;
+
+priority_queue<int> pq; // max heap
+
+for(const auto f : freq){
+    pq.push(f.second);
+}
+
+while(!pq.empty()){
+    vector<int> temp;
+
+    for(int i=1;i<=n+1;i++){
+        if(!pq.empty()){
+            int f = pq.top();
+            pq.pop();
+            f--;
+            temp.push_back(f);
+        }
+    }
+
+    for(int &f : temp){
+        if(f>0){
+            pq.push(f);
+        }
+    }
+
+    if(pq.empty()){
+        time += temp.size();
+    } else {
+        time += n+1;
+    }
+}
+
+return time;
 */
