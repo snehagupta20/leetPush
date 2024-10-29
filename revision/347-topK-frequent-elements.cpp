@@ -1,5 +1,32 @@
 class Solution {
 public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        vector<int> ans;
+        unordered_map<int,int> freq;
+
+        for(int i=0;i<nums.size();i++){
+            freq[nums[i]]++;
+        }
+
+        priority_queue<pair<int,int>> pq;
+
+        for(auto f:freq){
+            pq.push({f.second, f.first});
+        }
+
+        while(k>0){
+            ans.push_back(pq.top().second);
+            pq.pop();
+            k--;
+        }
+
+        return ans;
+    }
+};
+
+/*
+class Solution {
+public:
     struct compare {
         bool operator()(const pair<int, int>& a, const pair<int, int>& b) {
             if(a.second == b.second){
@@ -31,3 +58,5 @@ public:
         return ans;
     }
 };
+
+*/
