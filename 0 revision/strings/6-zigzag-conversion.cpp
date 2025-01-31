@@ -1,40 +1,39 @@
 class Solution {
 public:
     string convert(string s, int numRows) {
-        if(numRows==1) return s;
-        if(numRows >= s.size()) return s;
+        if(numRows >= s.size() || numRows==1){
+            return s;
+        }
 
-        string ans="";
-        int firstInterval=0;
+        string ans = "";
 
         for(int i=1;i<=numRows;i++){
+
+            int upInterval = (i-1)*2;               // important
+            int downInterval = (numRows-i)*2;       // important 
+
             if(i==numRows){
-                for(int j=i-1;j<s.size();j+=firstInterval){
-                    ans+=s[j];
+                for(int k=i-1;k<s.size();k+=upInterval){
+                    ans+=s[k];
                 }
-                return ans;
-            }
-            int interval = (numRows-i)*2;
-            int downInterval = (i-1)*2;
-
-            if(i==1){
-                firstInterval=interval;
+                break;
             }
 
-            int j = i-1;
-            ans+=s[j];
+            ans+=s[i-1];
+
+            int j=i-1;
             while(j<s.size()){
-                //neeche 
-                if(j+interval < s.size()){
-                    j+=interval;
+                // down
+                if(j+downInterval < s.size()){
+                    j+=downInterval;
                     ans+=s[j];
                 }
                 else break;
 
-                //uppar
-                if(downInterval==0) continue;
-                if(j+downInterval < s.size()){
-                    j+=downInterval;
+                // up
+                if(upInterval==0) continue;
+                if(j+upInterval < s.size()){
+                    j+=upInterval;
                     ans+=s[j];
                 }
                 else break;
@@ -44,4 +43,3 @@ public:
         return ans;
     }
 };
-
