@@ -1,3 +1,68 @@
+// thought process : 
+// 1. sort based on beauty
+// 2. and so on... 
+
+// after seeing glimpse of comments of pev sol, found out the sol for this ques. 
+
+class Solution {
+    public:
+        vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
+            // sort items based on price
+            sort(items.begin(), items.end());
+    
+            // removing duplicate items
+            vector<vector<int>> filteredItems;
+            for(int i=0;i<items.size();i++){
+                if(filteredItems.empty() || filteredItems.back()[0] != items[i][0]){
+                    filteredItems.push_back(items[i]);
+                } else {
+                    filteredItems.back()[1] = max(filteredItems.back()[1] , items[i][1]);
+                }
+            }
+            items = filteredItems;
+    
+            // current beauty max of prev
+            for(int j=1;j<items.size();j++){
+                items[j][1]=max(items[j][1],items[j-1][1]);
+            }
+    
+            // filling out ans vector
+            vector<int> ans;
+    
+            for(int i = 0; i < queries.size(); i++) {
+                int price = queries[i];
+                int left = 0, right = items.size() - 1;
+                int bestidx = -1;
+                            
+                while(left <= right) {
+                    int mid = left + (right - left) / 2;
+    
+                    if(items[mid][0] <= price) {
+                        bestidx=mid;
+                        left = mid + 1;  // Shift left
+                    } else {
+                        right = mid - 1;  // Shift right
+                    }
+    
+                }
+    
+                if (bestidx != -1) {
+                    ans.push_back(items[bestidx][1]);  // Take the best found item
+                } else {
+                    ans.push_back(0);  // No valid price found
+                }
+            }
+    
+            return ans;
+        }
+    };
+
+/*
+
+4th try
+
+
+
 class Solution {
 public:
     vector<int> maximumBeauty(vector<vector<int>>& items, vector<int>& queries) {
@@ -33,6 +98,8 @@ public:
         return result;
     }
 };
+
+*/
 
 
 /*
