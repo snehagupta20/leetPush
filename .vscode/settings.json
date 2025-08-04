@@ -3,6 +3,7 @@
         "*.embeddedhtml": "html",
         "*.ejs": "html",
         "cstdlib": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "xstring": "cpp"
     }
 }
